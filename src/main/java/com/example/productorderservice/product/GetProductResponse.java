@@ -1,7 +1,10 @@
 package com.example.productorderservice.product;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.util.Assert;
 
+@Getter @Setter
 class GetProductResponse {
     long id;
     String name;
