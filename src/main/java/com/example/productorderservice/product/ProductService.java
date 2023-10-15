@@ -22,4 +22,8 @@ class ProductService {
 
         return new GetProductResponse(product.getId(), product.getName(), product.getPrice(), product.getDiscountPolicy());
     }
+
+    public void updateProduct(Long productId, UpdateProductRequest request) {
+        throw new UnsupportedOperationException("Unsupported updateProduct");
+    }
 }
