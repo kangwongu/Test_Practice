@@ -25,4 +25,11 @@ public class ProductController {
 
         return ResponseEntity.ok().body(response);
     }
+
+    @PatchMapping("/{productId}")
+    public ResponseEntity<Void> updateProduct(@PathVariable Long productId, @RequestBody UpdateProductRequest request) {
+        productService.updateProduct(productId, request);
+
+        return ResponseEntity.ok().build();
+    }
 }
