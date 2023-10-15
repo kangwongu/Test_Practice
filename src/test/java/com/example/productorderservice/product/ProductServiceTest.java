@@ -1,6 +1,7 @@
 package com.example.productorderservice.product;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -11,6 +12,9 @@ class ProductServiceTest {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ProductPort productPort;
 
 
     @Test
@@ -42,6 +46,22 @@ class ProductServiceTest {
 
         // then
         assertThat(response).isNotNull();
+    }
+
+    @Test
+    public void 상품수정() {
+        // given
+        productService.addProduct(ProductSteps.상품등록요청_생성());
+        final Long productId = 1L;
+        final UpdateProductRequest request = new UpdateProductRequest("상품 수정", 2000, DiscountPolicy.NONE);
+
+        // when
+        productService.updateProduct(productId, request);
+
+        // then
+        GetProductResponse response = productService.getProduct(productId);
+        assertThat(response.getName()).isEqualTo("상품 수정");
+        assertThat(response.getPrice()).isEqualTo(2000);
     }
 
 }
