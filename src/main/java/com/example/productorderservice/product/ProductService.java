@@ -3,6 +3,7 @@ package com.example.productorderservice.product;
 import org.springframework.stereotype.Service;
 
 @Service
+public
 class ProductService {
     private final ProductPort productPort;
 
