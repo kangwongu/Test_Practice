@@ -20,17 +20,11 @@ public class OrderServiceTest {
     public void 상품주문() {
         // given
         productService.addProduct(ProductSteps.상품등록요청_생성());
-        final CreateOrderRequest request = 상품주문요청_생성();
+        final CreateOrderRequest request = OrderSteps.상품주문요청_생성();
 
         // when
         orderService.createOrder(request);
 
         // then
-    }
-
-    private static CreateOrderRequest 상품주문요청_생성() {
-        final Long productId = 1L;
-        final int quantity = 2;
-        return new CreateOrderRequest(productId, quantity);
     }
 }
