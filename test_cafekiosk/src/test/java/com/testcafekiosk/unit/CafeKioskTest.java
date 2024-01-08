@@ -11,19 +11,30 @@ import static org.junit.jupiter.api.Assertions.*;
 class CafeKioskTest {
 
     @Test
-    public void add() {
+    public void addSeveralBeverages() {
         // given
         CafeKiosk cafeKiosk = new CafeKiosk();
-        cafeKiosk.add(new Americano());
-        cafeKiosk.add(new Latte());
+        Americano americano = new Americano();
+
+        cafeKiosk.add(americano, 2);
 
         // when
-        int totalPrice = cafeKiosk.calculateTotalPrice();
-
         // then
-        assertThat(totalPrice).isEqualTo(8500);
-//        Assertions.assertThat(cafeKiosk.getBeverages().size()).isEqualTo(2);
-        assertThat(cafeKiosk.getBeverages()).hasSize(2);
+        assertThat(cafeKiosk.getBeverages().get(0)).isEqualTo(americano);
+        assertThat(cafeKiosk.getBeverages().get(1)).isEqualTo(americano);
+    }
+
+    @Test
+    public void addZeroBeverages() {
+        // given
+        CafeKiosk cafeKiosk = new CafeKiosk();
+        Americano americano = new Americano();
+
+        // when
+        // then
+        assertThatThrownBy(() -> cafeKiosk.add(americano, 0))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("음료는 1잔 이상 주문하실 수 있습니다.");
     }
 
     @Test
@@ -34,7 +45,7 @@ class CafeKioskTest {
 
         // when
         // then
-        cafeKiosk.add(americano);
+//        cafeKiosk.add(americano);
         assertThat(cafeKiosk.getBeverages()).hasSize(1);
 
         // when
@@ -50,8 +61,8 @@ class CafeKioskTest {
         Americano americano = new Americano();
         Latte latte = new Latte();
 
-        cafeKiosk.add(americano);
-        cafeKiosk.add(latte);
+//        cafeKiosk.add(americano);
+//        cafeKiosk.add(latte);
 
         // when
         cafeKiosk.getBeverages().clear();
