@@ -2,12 +2,13 @@ package com.testcafekiosk.unit;
 
 import com.testcafekiosk.unit.beverage.Beverage;
 import com.testcafekiosk.unit.order.Order;
-import org.aspectj.weaver.ast.Or;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class CafeKiosk {
 
     private final List<Beverage> beverages = new ArrayList<>();
