@@ -1,0 +1,65 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.2'
+    id 'io.spring.dependency-management' version '1.1.4'
+    // 코틀린
+    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
+    // 코틀린 - Spring
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.6.21'
+    // 코틀린 - JPA
+    id 'org.jetbrains.kotlin.plugin.jpa' version '1.6.21'
+    id "org.jetbrains.kotlin.plugin.allopen" version "1.6.21"
+}
+
+group = 'com.jyujyu'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // 코틀린
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.6.21'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3'  // 코틀린 - JSON
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+allOpen {
+    annotation("javax.persistence.Entity")
+    annotation("javax.persistence.MappedSuperclass")
+    annotation("javax.persistence.Embeddable")
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// 코틀린
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
