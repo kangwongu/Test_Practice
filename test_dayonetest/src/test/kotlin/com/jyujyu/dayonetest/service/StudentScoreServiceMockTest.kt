@@ -40,19 +40,7 @@ class StudentScoreServiceMockTest{
     fun saveScoreMockTest() {
         // given : 평균점수가 60점 이상인 경우
         val expectStudentScore = StudentScoreTestDataBuilder.passed()
-
-        val expectStudentPass = StudentPass(
-            studentName = expectStudentScore.studentName,
-            exam = expectStudentScore.exam,
-            avgScore = (
-                    MyCalculator()
-                        .add(expectStudentScore.korScore.toDouble())
-                        .add(expectStudentScore.englishScore.toDouble())
-                        .add(expectStudentScore.mathScore.toDouble())
-                        .divide(3.0)
-                        .result
-                    )
-        )
+        val expectStudentPass = StudentPassFixture.create(expectStudentScore)
 
         val studentScoreArgumentCaptor = ArgumentCaptor.forClass(StudentScore::class.java)
         val studentPassArgumentCaptor = ArgumentCaptor.forClass(StudentPass::class.java)
@@ -96,19 +84,7 @@ class StudentScoreServiceMockTest{
     fun saveScoreMockTest2() {
         // given : 평균점수가 60점 미만인 경우
         val expectStudentScore = StudentScoreFixture.failed()
-
-        val expectStudentFail = StudentPass(
-            studentName = expectStudentScore.studentName,
-            exam = expectStudentScore.exam,
-            avgScore = (
-                    MyCalculator()
-                        .add(expectStudentScore.korScore.toDouble())
-                        .add(expectStudentScore.englishScore.toDouble())
-                        .add(expectStudentScore.mathScore.toDouble())
-                        .divide(3.0)
-                        .result
-                    )
-        )
+        val expectStudentFail = StudentFailFixture.create(expectStudentScore)
 
         val studentScoreArgumentCaptor = ArgumentCaptor.forClass(StudentScore::class.java)
         val studentFailArgumentCaptor = ArgumentCaptor.forClass(StudentFail::class.java)
@@ -149,14 +125,10 @@ class StudentScoreServiceMockTest{
     @DisplayName("합격자 명단 가져오기 검증")
     fun getPassStudentListTest() {
         // given
-        val studentScoreRepository = Mockito.mock(StudentScoreRepository::class.java)
-        val studentPassRepository = Mockito.mock(StudentPassRepository::class.java)
-        val studentFailRepository = Mockito.mock(StudentFailRepository::class.java)
-
         val givenTestExam = "testexam"
-        val expectStudent1 = StudentPass(id = 1, studentName = "jj", avgScore = 70.0, exam = givenTestExam)
-        val expectStudent2 = StudentPass(id = 2, studentName = "kk", avgScore = 80.0, exam = givenTestExam)
-        val nonExpectStudent3 = StudentPass(id = 3, studentName = "ll", avgScore = 90.0, exam = "secondExam")
+        val expectStudent1 = StudentPassFixture.create("jj", givenTestExam)
+        val expectStudent2 = StudentPassFixture.create("kk", givenTestExam)
+        val nonExpectStudent3 = StudentPassFixture.create("ll", "secondExam")
 
         // studentPassRepository.findAll()을 호출하면, thenReturn절을 반환한다
         Mockito
@@ -166,12 +138,6 @@ class StudentScoreServiceMockTest{
                 expectStudent2,
                 nonExpectStudent3,
         ))
-
-        val studentScoreService = StudentScoreService(
-            studentScoreRepository,
-            studentPassRepository,
-            studentFailRepository
-        )
 
         // when
         val expectResponses = listOf(expectStudent1, expectStudent2)
@@ -188,14 +154,10 @@ class StudentScoreServiceMockTest{
     @DisplayName("불합격자 명단 가져오기 검증")
     fun getFailStudentListTest() {
         // given
-        val studentScoreRepository = Mockito.mock(StudentScoreRepository::class.java)
-        val studentPassRepository = Mockito.mock(StudentPassRepository::class.java)
-        val studentFailRepository = Mockito.mock(StudentFailRepository::class.java)
-
         val givenTestExam = "testexam"
-        val expectStudent1 = StudentFail(id = 1, studentName = "jj", avgScore = 40.0, exam = givenTestExam)
-        val expectStudent2 = StudentFail(id = 2, studentName = "kk", avgScore = 55.0, exam = givenTestExam)
-        val nonExpectStudent3 = StudentFail(id = 3, studentName = "ll", avgScore = 90.0, exam = "secondExam")
+        val expectStudent1 = StudentFailFixture.create("jj", givenTestExam)
+        val expectStudent2 = StudentFailFixture.create("kk", givenTestExam)
+        val nonExpectStudent3 = StudentFailFixture.create("ll", "secondExam")
 
         // studentPassRepository.findAll()을 호출하면, thenReturn절을 반환한다
         Mockito
@@ -205,12 +167,6 @@ class StudentScoreServiceMockTest{
                 expectStudent2,
                 nonExpectStudent3,
             ))
-
-        val studentScoreService = StudentScoreService(
-            studentScoreRepository,
-            studentPassRepository,
-            studentFailRepository
-        )
 
         // when
         val expectResponses = listOf(expectStudent1, expectStudent2)
