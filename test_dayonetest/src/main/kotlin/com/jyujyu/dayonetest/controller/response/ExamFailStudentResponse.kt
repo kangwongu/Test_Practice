@@ -1,6 +1,6 @@
 package com.jyujyu.dayonetest.controller.response
 
-class ExamFailStudentResponse(
+data class ExamFailStudentResponse(
     val studentName: String,
     val avgScore: Double,
 )
