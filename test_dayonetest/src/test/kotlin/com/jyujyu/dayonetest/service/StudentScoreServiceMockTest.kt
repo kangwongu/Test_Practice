@@ -1,15 +1,18 @@
 package com.jyujyu.dayonetest.service
 
+import com.jyujyu.dayonetest.MyCalculator
 import com.jyujyu.dayonetest.controller.response.ExamFailStudentResponse
 import com.jyujyu.dayonetest.controller.response.ExamPassStudentResponse
 import com.jyujyu.dayonetest.model.StudentFail
 import com.jyujyu.dayonetest.model.StudentPass
+import com.jyujyu.dayonetest.model.StudentScore
 import com.jyujyu.dayonetest.repository.StudentFailRepository
 import com.jyujyu.dayonetest.repository.StudentPassRepository
 import com.jyujyu.dayonetest.repository.StudentScoreRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.mockito.ArgumentCaptor
 import org.mockito.Mockito
 
 class StudentScoreServiceMockTest {
@@ -62,6 +65,31 @@ class StudentScoreServiceMockTest {
         val givenEnglishScore = 100
         val givenMathScore = 60
 
+        //
+        val expectStudentScore = StudentScore(
+            studentName = givenStudentName,
+            exam = givenExam,
+            korScore = givenKorScore,
+            englishScore = givenEnglishScore,
+            mathScore = givenMathScore
+        )
+
+        val expectStudentPass = StudentPass(
+            studentName = givenStudentName,
+            exam = givenExam,
+            avgScore = (
+                    MyCalculator()
+                        .add(givenKorScore.toDouble())
+                        .add(givenEnglishScore.toDouble())
+                        .add(givenMathScore.toDouble())
+                        .divide(3.0)
+                        .result
+                    )
+        )
+
+        val studentScoreArgumentCaptor = ArgumentCaptor.forClass(StudentScore::class.java)
+        val studentPassArgumentCaptor = ArgumentCaptor.forClass(StudentPass::class.java)
+
         // when
         studentScoreService.saveScore(
             givenStudentName,
@@ -73,8 +101,24 @@ class StudentScoreServiceMockTest {
 
         // then
         // 60점이상이면 pass이기 때문에 Fail리포지토리는 호출되지 않아야 함을 의미하는 테스트
-        Mockito.verify(studentScoreRepository, Mockito.times(1)).save(Mockito.any())
-        Mockito.verify(studentPassRepository, Mockito.times(1)).save(Mockito.any())
+        Mockito.verify(studentScoreRepository, Mockito.times(1)).save(studentScoreArgumentCaptor.capture())
+
+        // 메소드 호출 시, 인자값 검증
+        val capturedStudentScore = studentScoreArgumentCaptor.value
+        assertThat(capturedStudentScore.studentName).isEqualTo(expectStudentScore.studentName)
+        assertThat(capturedStudentScore.exam).isEqualTo(expectStudentScore.exam)
+        assertThat(capturedStudentScore.korScore).isEqualTo(expectStudentScore.korScore)
+        assertThat(capturedStudentScore.englishScore).isEqualTo(expectStudentScore.englishScore)
+        assertThat(capturedStudentScore.mathScore).isEqualTo(expectStudentScore.mathScore)
+
+        Mockito.verify(studentPassRepository, Mockito.times(1)).save(studentPassArgumentCaptor.capture())
+
+        // 메소드 호출 시, 인자값 검증
+        val capturedStudentPass = studentPassArgumentCaptor.value
+        assertThat(capturedStudentPass.studentName).isEqualTo(expectStudentPass.studentName)
+        assertThat(capturedStudentPass.exam).isEqualTo(expectStudentPass.exam)
+        assertThat(capturedStudentPass.avgScore).isEqualTo(expectStudentPass.avgScore)
+
         Mockito.verify(studentFailRepository, Mockito.times(0)).save(Mockito.any())
 
     }
@@ -100,6 +144,30 @@ class StudentScoreServiceMockTest {
         val givenEnglishScore = 40
         val givenMathScore = 60
 
+        val expectStudentScore = StudentScore(
+            studentName = givenStudentName,
+            exam = givenExam,
+            korScore = givenKorScore,
+            englishScore = givenEnglishScore,
+            mathScore = givenMathScore
+        )
+
+        val expectStudentFail = StudentPass(
+            studentName = givenStudentName,
+            exam = givenExam,
+            avgScore = (
+                    MyCalculator()
+                        .add(givenKorScore.toDouble())
+                        .add(givenEnglishScore.toDouble())
+                        .add(givenMathScore.toDouble())
+                        .divide(3.0)
+                        .result
+                    )
+        )
+
+        val studentScoreArgumentCaptor = ArgumentCaptor.forClass(StudentScore::class.java)
+        val studentFailArgumentCaptor = ArgumentCaptor.forClass(StudentFail::class.java)
+
         // when
         studentScoreService.saveScore(
             givenStudentName,
@@ -111,10 +179,24 @@ class StudentScoreServiceMockTest {
 
         // then
         // 60점 미만이면 fail이기 때문에 Pass리포지토리는 호출되지 않아야 함을 의미하는 테스트
-        Mockito.verify(studentScoreRepository, Mockito.times(1)).save(Mockito.any())
-        Mockito.verify(studentPassRepository, Mockito.times(0)).save(Mockito.any())
-        Mockito.verify(studentFailRepository, Mockito.times(1)).save(Mockito.any())
+        Mockito.verify(studentScoreRepository, Mockito.times(1)).save(studentScoreArgumentCaptor.capture())
 
+        // 메소드 호출 시, 인자값 검증
+        val capturedStudentScore = studentScoreArgumentCaptor.value
+        assertThat(capturedStudentScore.studentName).isEqualTo(expectStudentScore.studentName)
+        assertThat(capturedStudentScore.exam).isEqualTo(expectStudentScore.exam)
+        assertThat(capturedStudentScore.korScore).isEqualTo(expectStudentScore.korScore)
+        assertThat(capturedStudentScore.englishScore).isEqualTo(expectStudentScore.englishScore)
+        assertThat(capturedStudentScore.mathScore).isEqualTo(expectStudentScore.mathScore)
+
+        Mockito.verify(studentPassRepository, Mockito.times(0)).save(Mockito.any())
+        Mockito.verify(studentFailRepository, Mockito.times(1)).save(studentFailArgumentCaptor.capture())
+
+        // 메소드 호출 시, 인자값 검증
+        val capturedStudentFail = studentFailArgumentCaptor.value
+        assertThat(capturedStudentFail.studentName).isEqualTo(expectStudentFail.studentName)
+        assertThat(capturedStudentFail.exam).isEqualTo(expectStudentFail.exam)
+        assertThat(capturedStudentFail.avgScore).isEqualTo(expectStudentFail.avgScore)
     }
 
     // 가짜 데이터 검증하기 (stub)
