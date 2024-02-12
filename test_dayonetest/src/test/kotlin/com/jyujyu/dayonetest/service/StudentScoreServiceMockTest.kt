@@ -10,38 +10,30 @@ import com.jyujyu.dayonetest.repository.StudentFailRepository
 import com.jyujyu.dayonetest.repository.StudentPassRepository
 import com.jyujyu.dayonetest.repository.StudentScoreRepository
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentCaptor
 import org.mockito.Mockito
 
-class StudentScoreServiceMockTest {
+class StudentScoreServiceMockTest{
 
-    @Test
-    @DisplayName("첫번째 Mock 테스트")
-    fun firstSaveScoreMockTest() {
-        // given
-        val studentScoreService = StudentScoreService(
-            Mockito.mock(StudentScoreRepository::class.java),
-            Mockito.mock(StudentPassRepository::class.java),
-            Mockito.mock(StudentFailRepository::class.java)
+    private lateinit var studentScoreService: StudentScoreService
+    private lateinit var studentScoreRepository: StudentScoreRepository
+    private lateinit var studentPassRepository: StudentPassRepository
+    private lateinit var studentFailRepository: StudentFailRepository
+
+    @BeforeEach
+    fun beforeEach() {
+        studentScoreRepository = Mockito.mock(StudentScoreRepository::class.java)
+        studentPassRepository = Mockito.mock(StudentPassRepository::class.java)
+        studentFailRepository = Mockito.mock(StudentFailRepository::class.java)
+
+        studentScoreService = StudentScoreService(
+            studentScoreRepository,
+            studentPassRepository,
+            studentFailRepository
         )
-        val givenStudentName: String = "jj"
-        val givenExam: String = "testexam"
-        val givenKorScore = 80
-        val givenEnglishScore = 100
-        val givenMathScore = 60
-
-        // when
-        studentScoreService.saveScore(
-            givenStudentName,
-            givenExam,
-            givenKorScore,
-            givenEnglishScore,
-            givenMathScore
-        )
-
-        // then
     }
 
     // 행동 검증 (실행했는지?)
@@ -49,16 +41,6 @@ class StudentScoreServiceMockTest {
     @DisplayName("성적 저장 로직 검증 / 평균점수가 60점 이상인 경우")
     fun saveScoreMockTest() {
         // given : 평균점수가 60점 이상인 경우
-        val studentScoreRepository = Mockito.mock(StudentScoreRepository::class.java)
-        val studentPassRepository = Mockito.mock(StudentPassRepository::class.java)
-        val studentFailRepository = Mockito.mock(StudentFailRepository::class.java)
-
-        val studentScoreService = StudentScoreService(
-            studentScoreRepository,
-            studentPassRepository,
-            studentFailRepository
-        )
-
         val givenStudentName: String = "jj"
         val givenExam: String = "testexam"
         val givenKorScore = 80
