@@ -6,6 +6,7 @@ import com.jyujyu.dayonetest.controller.response.ExamPassStudentResponse
 import com.jyujyu.dayonetest.model.StudentFail
 import com.jyujyu.dayonetest.model.StudentPass
 import com.jyujyu.dayonetest.model.StudentScore
+import com.jyujyu.dayonetest.model.StudentScoreTestDataBuilder
 import com.jyujyu.dayonetest.repository.StudentFailRepository
 import com.jyujyu.dayonetest.repository.StudentPassRepository
 import com.jyujyu.dayonetest.repository.StudentScoreRepository
@@ -41,29 +42,16 @@ class StudentScoreServiceMockTest{
     @DisplayName("성적 저장 로직 검증 / 평균점수가 60점 이상인 경우")
     fun saveScoreMockTest() {
         // given : 평균점수가 60점 이상인 경우
-        val givenStudentName: String = "jj"
-        val givenExam: String = "testexam"
-        val givenKorScore = 80
-        val givenEnglishScore = 100
-        val givenMathScore = 60
-
-        //
-        val expectStudentScore = StudentScore(
-            studentName = givenStudentName,
-            exam = givenExam,
-            korScore = givenKorScore,
-            englishScore = givenEnglishScore,
-            mathScore = givenMathScore
-        )
+        val expectStudentScore = StudentScoreTestDataBuilder.passed()
 
         val expectStudentPass = StudentPass(
-            studentName = givenStudentName,
-            exam = givenExam,
+            studentName = expectStudentScore.studentName,
+            exam = expectStudentScore.exam,
             avgScore = (
                     MyCalculator()
-                        .add(givenKorScore.toDouble())
-                        .add(givenEnglishScore.toDouble())
-                        .add(givenMathScore.toDouble())
+                        .add(expectStudentScore.korScore.toDouble())
+                        .add(expectStudentScore.englishScore.toDouble())
+                        .add(expectStudentScore.mathScore.toDouble())
                         .divide(3.0)
                         .result
                     )
@@ -74,11 +62,11 @@ class StudentScoreServiceMockTest{
 
         // when
         studentScoreService.saveScore(
-            givenStudentName,
-            givenExam,
-            givenKorScore,
-            givenEnglishScore,
-            givenMathScore
+            expectStudentScore.studentName,
+            expectStudentScore.exam,
+            expectStudentScore.korScore,
+            expectStudentScore.englishScore,
+            expectStudentScore.mathScore
         )
 
         // then
