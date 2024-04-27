@@ -17,10 +17,10 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
-    show-sql: true
+      ddl-auto: none
     properties:
       hibernate:
+        show-sql: true
         format_sql: true
     defer-datasource-initialization: true # (2.5~) Hibernate ??? ?? data.sql ??
 
