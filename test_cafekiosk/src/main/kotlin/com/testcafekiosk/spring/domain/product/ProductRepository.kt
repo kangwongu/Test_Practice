@@ -6,4 +6,5 @@ interface ProductRepository : JpaRepository<Product, Long> {
 
     fun findAllBySellingStatusIn(sellingStatus: List<ProductSellingStatus>): List<Product>
 
+    fun findAllByProductNumberIn(productNumbers: List<String>): List<Product>
 }

@@ -2,6 +2,21 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
+    // 코틀린
+    id 'org.jetbrains.kotlin.jvm' version '1.8.22'
+    // 코틀린 - Spring
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.8.22'
+    // 코틀린 - JPA
+    id 'org.jetbrains.kotlin.plugin.jpa' version '1.8.22'
+    id "org.jetbrains.kotlin.plugin.allopen" version "1.8.22"
+}
+
+// plugins, dependencies와 같은 Level (즉 build.gradle 최상단)
+allOpen {
+    annotation("javax.persistence.Entity")
+    annotation("javax.persistence.MappedSuperclass")
+    annotation("javax.persistence.Embeddable")
+    annotation("com.testcafekiosk.spring.config.annotation.AllOpen")
 }
 
 group = 'com.example'
@@ -22,6 +37,11 @@ repositories {
 }
 
 dependencies {
+    // 코틀린
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.8.22'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3'  // 코틀린 - JSON
+
     // Spring boot
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -49,4 +69,17 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+// 코틀린
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }

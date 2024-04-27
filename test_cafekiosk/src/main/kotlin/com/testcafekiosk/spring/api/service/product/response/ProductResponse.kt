@@ -13,7 +13,7 @@ class ProductResponse(
     val price: Int
 ) {
     companion object {
-        fun of(product: Product): ProductResponse {
+        fun from(product: Product): ProductResponse {
             return ProductResponse(
                 id = product.id!!,
                 productNumber = product.productNumber,

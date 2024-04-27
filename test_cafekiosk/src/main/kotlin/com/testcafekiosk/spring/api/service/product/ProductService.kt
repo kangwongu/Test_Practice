@@ -14,7 +14,7 @@ class ProductService(
         val products = productRepository.findAllBySellingStatusIn(ProductSellingStatus.forDisplay())
 
         return products
-            .map { ProductResponse.of(it) }
+            .map { ProductResponse.from(it) }
             .toList()
     }
 }
