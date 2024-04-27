@@ -24,12 +24,12 @@ class Order(
 
 ) : BaseEntity() {
 
-    fun registerOrderProduct(products: List<Product>) {
+    fun registerOrderProduct(products: List<Product?>) {
         val orderProducts = products
             .map {
                 OrderProduct(
                     order = this,
-                    product = it
+                    product = it!!
                 )
             }
             .toMutableList()
@@ -37,10 +37,10 @@ class Order(
     }
 
     companion object {
-        fun from(products: List<Product>, registeredDateTime: LocalDateTime): Order {
+        fun from(products: List<Product?>, registeredDateTime: LocalDateTime): Order {
             val order = Order(
                 orderStatus = OrderStatus.INIT,
-                totalPrice = products.sumOf { it.price },
+                totalPrice = products.sumOf { it!!.price },
                 registeredDateTime = registeredDateTime,
 //                orderProducts = registerOrderProduct(products)
             )

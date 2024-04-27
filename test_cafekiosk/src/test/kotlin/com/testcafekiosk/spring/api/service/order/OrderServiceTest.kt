@@ -51,6 +51,36 @@ class OrderServiceTest @Autowired constructor(
 
     }
 
+    @Test
+    @DisplayName("중복되는 상품번호로 주문을 생성할 수 있다")
+    fun createOrderWithDuplicateProductNumbers() {
+        // given
+        val registeredDateTime = LocalDateTime.now()
+
+        val product1 = createProduct(ProductType.HANDMADE, "001", 1000)
+        val product2 = createProduct(ProductType.HANDMADE, "002", 3000)
+        val product3 = createProduct(ProductType.HANDMADE, "003", 5000)
+        productRepository.saveAll(listOf(product1, product2, product3))
+
+        val request = OrderCreateRequest(listOf("001", "001"))
+
+        // when
+        val result = orderService.createOrder(request, registeredDateTime)
+
+        // then
+        assertThat(result.id).isNotNull()
+        assertThat(result)
+            .extracting("registeredDateTime", "totalPrice")
+            .contains(registeredDateTime, 2000)
+        assertThat(result.products).hasSize(2)
+            .extracting("productNumber", "price")
+            .containsExactlyInAnyOrder(
+                tuple("001", 1000),
+                tuple("001", 1000)
+            )
+
+    }
+
     fun createProduct(type: ProductType, productNumber: String, price: Int): Product {
         return Product(
             type = type,
