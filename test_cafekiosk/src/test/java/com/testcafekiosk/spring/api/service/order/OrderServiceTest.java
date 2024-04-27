@@ -1,5 +1,6 @@
 package com.testcafekiosk.spring.api.service.order;
 
+import com.testcafekiosk.spring.IntergrationTest;
 import com.testcafekiosk.spring.api.controller.order.request.OrderCreateRequest;
 import com.testcafekiosk.spring.api.service.order.response.OrderResponse;
 import com.testcafekiosk.spring.domain.order.OrderRepository;
@@ -23,9 +24,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ActiveProfiles("test")
-@SpringBootTest
-class OrderServiceTest {
+//@ActiveProfiles("test")
+//@SpringBootTest
+class OrderServiceTest extends IntergrationTest {
 
     @Autowired
     private OrderService orderService;
