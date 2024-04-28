@@ -35,6 +35,17 @@ CREATE TABLE order_product (
    PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS stock;
+
+CREATE TABLE stock (
+   id int NOT NULL AUTO_INCREMENT,
+   product_number varchar(255),
+   quantity int,
+   created_date_time datetime,
+   modified_date_time datetime,
+   PRIMARY KEY (id)
+);
+
 insert into product(product_number, type, selling_status, name, price)
 values ('001', 'HANDMADE', 'SELLING', '아메리카노', 4000),
        ('002', 'HANDMADE', 'HOLD', '카페라떼', 4500),

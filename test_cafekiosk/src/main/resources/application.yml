@@ -39,12 +39,22 @@ spring:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
 
   jpa:
+    show-sql: true
     database: mysql
     properties:
       hibernate:
-        show-sql: true
         format_sql: true
+        highlight_sql: true
+#        use_sql_comments: true
 
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql: trace
 #  sql:
 #    init:
 #      mode: never

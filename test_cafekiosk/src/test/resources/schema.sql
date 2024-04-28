@@ -34,3 +34,14 @@ CREATE TABLE product (
     modified_date_time datetime,
     PRIMARY KEY (id)
 );
+
+DROP TABLE IF EXISTS stock;
+
+CREATE TABLE stock (
+   id int NOT NULL AUTO_INCREMENT,
+   product_number varchar(255),
+   quantity int,
+   created_date_time datetime,
+   modified_date_time datetime,
+   PRIMARY KEY (id)
+);
