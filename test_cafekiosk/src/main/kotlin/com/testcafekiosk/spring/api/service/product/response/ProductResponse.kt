@@ -5,7 +5,7 @@ import com.testcafekiosk.spring.domain.product.ProductSellingStatus
 import com.testcafekiosk.spring.domain.product.ProductType
 
 class ProductResponse(
-    var id: Long,
+    var id: Long? = null,
     val productNumber: String,
     val type: ProductType,
     val sellingStatus: ProductSellingStatus,
@@ -15,7 +15,7 @@ class ProductResponse(
     companion object {
         fun from(product: Product): ProductResponse {
             return ProductResponse(
-                id = product.id!!,
+                id = product.id,
                 productNumber = product.productNumber,
                 type = product.type,
                 sellingStatus = product.sellingStatus,
