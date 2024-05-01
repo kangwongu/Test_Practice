@@ -1,6 +1,6 @@
 package com.testcafekiosk.spring.api.service.order
 
-import com.testcafekiosk.spring.api.controller.order.request.OrderCreateRequest
+import com.testcafekiosk.spring.api.service.order.request.OrderCreateServiceRequest
 import com.testcafekiosk.spring.api.service.order.response.OrderResponse
 import com.testcafekiosk.spring.domain.order.Order
 import com.testcafekiosk.spring.domain.order.OrderRepository
@@ -12,8 +12,6 @@ import com.testcafekiosk.spring.domain.stock.StockRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
-import java.util.stream.Collector
-import java.util.stream.Collectors
 
 @Service
 class OrderService(
@@ -23,8 +21,8 @@ class OrderService(
 ) {
 
     @Transactional
-    fun createOrder(request: OrderCreateRequest, registeredDateTime: LocalDateTime): OrderResponse {
-        val productNumbers = request.productNumbers
+    fun createOrder(request: OrderCreateServiceRequest, registeredDateTime: LocalDateTime): OrderResponse {
+        val productNumbers = request.productNumbers!!
         val products = findProductsBy(productNumbers)
 
         deductStockQuantities(products)

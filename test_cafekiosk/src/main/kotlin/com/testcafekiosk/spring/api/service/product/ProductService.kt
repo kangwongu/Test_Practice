@@ -1,6 +1,6 @@
 package com.testcafekiosk.spring.api.service.product
 
-import com.testcafekiosk.spring.api.controller.product.request.ProductCreateRequest
+import com.testcafekiosk.spring.api.service.product.request.ProductCreateServiceRequest
 import com.testcafekiosk.spring.api.service.product.response.ProductResponse
 import com.testcafekiosk.spring.domain.product.ProductRepository
 import com.testcafekiosk.spring.domain.product.ProductSellingStatus
@@ -19,7 +19,7 @@ class ProductService(
             .toList()
     }
 
-    fun createProduct(request: ProductCreateRequest): ProductResponse {
+    fun createProduct(request: ProductCreateServiceRequest): ProductResponse {
         val nextProductNumber = createNextProductNumber()
 
         var product = request.toEntity(nextProductNumber)

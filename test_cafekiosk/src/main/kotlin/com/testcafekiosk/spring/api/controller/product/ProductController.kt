@@ -1,8 +1,10 @@
 package com.testcafekiosk.spring.api.controller.product
 
+import com.testcafekiosk.spring.api.ApiResponse
 import com.testcafekiosk.spring.api.controller.product.request.ProductCreateRequest
 import com.testcafekiosk.spring.api.service.product.ProductService
 import com.testcafekiosk.spring.api.service.product.response.ProductResponse
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -14,12 +16,12 @@ class ProductController(
 ) {
 
     @PostMapping("/api/v1/products/new")
-    fun createProduct(@RequestBody request: ProductCreateRequest) {
-        productService.createProduct(request)
+    fun createProduct(@Valid @RequestBody request: ProductCreateRequest): ApiResponse<ProductResponse> {
+        return ApiResponse.ok(productService.createProduct(request.toServiceRequest()))
     }
 
     @GetMapping("/api/v1/products/selling")
-    fun getSellingProducts(): List<ProductResponse> {
-        return productService.getSellingProducts()
+    fun getSellingProducts(): ApiResponse<List<ProductResponse>> {
+        return ApiResponse.ok(productService.getSellingProducts())
     }
 }
