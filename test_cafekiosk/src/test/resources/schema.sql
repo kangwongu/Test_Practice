@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS orders;
 
 CREATE TABLE orders (
     id int NOT NULL AUTO_INCREMENT,
-    order_status varchar(10) DEFAULT NULL,
+    order_status varchar(20) DEFAULT NULL,
     total_price int DEFAULT NULL,
     registered_date_time datetime,
     created_date_time datetime,
@@ -43,5 +43,16 @@ CREATE TABLE stock (
    quantity int,
    created_date_time datetime,
    modified_date_time datetime,
+   PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS mail_send_history;
+
+CREATE TABLE mail_send_history (
+   id int NOT NULL AUTO_INCREMENT,
+   from_email varchar(255),
+   to_email varchar(255),
+   title varchar(255),
+   content varchar(255),
    PRIMARY KEY (id)
 );

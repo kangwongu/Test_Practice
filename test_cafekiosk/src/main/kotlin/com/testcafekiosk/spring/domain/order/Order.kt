@@ -37,9 +37,13 @@ class Order(
     }
 
     companion object {
-        fun from(products: List<Product?>, registeredDateTime: LocalDateTime): Order {
+        fun from(
+            products: List<Product?>,
+            registeredDateTime: LocalDateTime,
+            orderStatus: OrderStatus = OrderStatus.INIT
+        ): Order {
             val order = Order(
-                orderStatus = OrderStatus.INIT,
+                orderStatus = orderStatus,
                 totalPrice = products.sumOf { it!!.price },
                 registeredDateTime = registeredDateTime,
 //                orderProducts = registerOrderProduct(products)
