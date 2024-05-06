@@ -67,12 +67,6 @@ class OrderStatisticsServiceTest @Autowired constructor(
             .contains("총 매출 합계는 18000입니다")
     }
 
-    // add
-    private fun <T> any(): T {
-        Mockito.any<T>()
-        return null as T
-    }
-
     private fun createPaymentCompletedOrder(
         products: List<Product>,
         now: LocalDateTime
