@@ -1,8 +1,6 @@
 package com.testcafekiosk.spring.api.service
 
 import com.testcafekiosk.integration.IntegrationTest
-import com.testcafekiosk.spring.api.service.product.request.ProductCreateServiceRequest
-import com.testcafekiosk.spring.client.MailSendClient
 import com.testcafekiosk.spring.domain.history.mail.MailSendHistoryRepository
 import com.testcafekiosk.spring.domain.order.Order
 import com.testcafekiosk.spring.domain.order.OrderRepository
@@ -11,16 +9,12 @@ import com.testcafekiosk.spring.domain.product.Product
 import com.testcafekiosk.spring.domain.product.ProductRepository
 import com.testcafekiosk.spring.domain.product.ProductSellingStatus
 import com.testcafekiosk.spring.domain.product.ProductType
-import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.*
-import org.junit.jupiter.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito
-import org.mockito.Mockito.*
+import org.mockito.Mockito.anyString
+import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.mock.mockito.MockBean
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -31,8 +25,9 @@ class OrderStatisticsServiceTest @Autowired constructor(
     private val mailSendHistoryRepository: MailSendHistoryRepository,
 ) : IntegrationTest() {
 
-    @MockBean
-    private lateinit var mailSendClient: MailSendClient
+    // IntegrationTest로 이동
+//    @MockBean
+//    private lateinit var mailSendClient: MailSendClient
 
     @Test
     @DisplayName("결제완료된 주문들을 조회하여 매출통계 메일을 전송한다")

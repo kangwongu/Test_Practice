@@ -1,34 +1,22 @@
 package com.testcafekiosk.spring.api.controller.product
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.testcafekiosk.integration.ControllerTest
 import com.testcafekiosk.spring.api.controller.product.request.ProductCreateRequest
-import com.testcafekiosk.spring.api.service.product.ProductService
 import com.testcafekiosk.spring.api.service.product.response.ProductResponse
 import com.testcafekiosk.spring.domain.product.ProductSellingStatus
 import com.testcafekiosk.spring.domain.product.ProductType
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@WebMvcTest(controllers = [ProductController::class])
-class ProductControllerTest @Autowired constructor(
-    private val mockMvc: MockMvc,
-    private val objectMapper: ObjectMapper,
-) {
+class ProductControllerTest : ControllerTest() {
 
-    // 서비스는 mocking 처리, 임시
-    @MockBean
-    private lateinit var productService: ProductService
 
     @Test
     @DisplayName("신규 상품을 등록한다")

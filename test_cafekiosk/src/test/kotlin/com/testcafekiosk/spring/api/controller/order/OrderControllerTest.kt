@@ -1,32 +1,15 @@
 package com.testcafekiosk.spring.api.controller.order
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.testcafekiosk.integration.ControllerTest
 import com.testcafekiosk.spring.api.controller.order.request.OrderCreateRequest
-import com.testcafekiosk.spring.api.controller.product.request.ProductCreateRequest
-import com.testcafekiosk.spring.api.service.order.OrderService
-import com.testcafekiosk.spring.api.service.product.ProductService
-import com.testcafekiosk.spring.domain.product.ProductSellingStatus
-import com.testcafekiosk.spring.domain.product.ProductType
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
-@WebMvcTest(controllers = [OrderController::class])
-class OrderControllerTest @Autowired constructor(
-    private val mockMvc: MockMvc,
-    private val objectMapper: ObjectMapper,
-) {
-
-    @MockBean
-    private lateinit var orderService: OrderService
+class OrderControllerTest : ControllerTest() {
 
     @Test
     @DisplayName("신규 주문을 등록한다")
