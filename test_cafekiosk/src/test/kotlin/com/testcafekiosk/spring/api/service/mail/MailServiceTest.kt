@@ -7,6 +7,7 @@ import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.BDDMockito
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -19,10 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 class MailServiceTest {
 
     // Mockito.mock으로 생성하지 않고 어노테이션으로도 생성가능
-//    @Mock
-//    private lateinit var mailSendClient: MailSendClient
-
-    @Spy
+    @Mock
     private lateinit var mailSendClient: MailSendClient
 
     @Mock
@@ -36,17 +34,6 @@ class MailServiceTest {
     @DisplayName("메일을 전송한다")
     fun sendMail() {
         // given
-        // Mock 객체 생성
-//        val mailSendClient = Mockito.mock(MailSendClient::class.java)
-//        val mailSendHistoryRepository = Mockito.mock(MailSendHistoryRepository::class.java)
-
-        // Mock 객체로 Mock MailService 생성
-//        val mailService = MailService(mailSendClient, mailSendHistoryRepository)
-
-        Mockito.doReturn(true)
-            .`when`(mailSendClient)
-            .sendEmail(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())
-
         // Mock Mail Service의 행동을 정의
 //        Mockito.`when`(
 //            mailSendClient.sendEmail(
@@ -58,12 +45,8 @@ class MailServiceTest {
 //        )
 //            .thenReturn(true)
 
-//        Mockito.`when`(
-//            mailSendHistoryRepository.save(
-//                any(MailSendHistory::class.java)
-//            )
-//        )
-
+        BDDMockito.given(mailSendClient.sendEmail(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+            .willReturn(true)
 
         // when
         val result = mailService.sendMail("", "", "", "")
